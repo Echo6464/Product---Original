@@ -33,5 +33,42 @@ namespace Producks.Web.Controllers
                                        .ToListAsync();
             return Ok(brands);
         }
+
+
+        // GET: api/Categories
+        [HttpGet("api/Categories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            var Categories = await _context.Categories
+                                       .Select(c => new CategoryDto
+                                       {
+                                           Id = c.Id,
+                                           Name = c.Name,
+                                           Active = c.Active,
+                                           Description = c.Description
+                                       })
+                                       .ToListAsync();
+            return Ok(Categories);
+        }
+
+        // GET: api/Products
+        [HttpGet("api/Products")]
+        public async Task<IActionResult> GetProducts(int? brandId, int? categoryId, int? min, int? max)
+        {
+            var Products = await _context.Products.Where(p => (p.Price <= max && p.Price >= min) && (p.CategoryId == categoryId || categoryId == null) && (p.BrandId == brandId || brandId == null))
+                                       .Select(p => new ProductsDto
+                                       {
+                                           Id = p.Id,
+                                           Name = p.Name,
+                                           Active = p.Active,
+                                           Description = p.Description,
+                                           BrandId = p.BrandId, 
+                                           Price = p.Price,
+                                           StockLevel = p.StockLevel,
+                                           CategoryId = p.CategoryId
+                                       })
+                                       .ToListAsync();
+            return Ok(Products);
+        }
     }
 }

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Producks.Repo.ViewModels.ProductRepoVM>
+
+
+
+@{ ViewBag.Title = "Index"; }
+
+
+
+<h2>Index</h2>
+
+
+
+@*
+    <p>
+    @Html.DropDownList("Categories","Select Category...")
+    @Html.DropDownList("Brands","Select Brand...")
+    @Html.ActionLink("Submit","Index")
+    </p>
+*@
+
+
+
+@using (Html.BeginForm("Index", "Store", FormMethod.Get))
+{
+    <fielset>
+        Category
+        @Html.DropDownList("catName", (IEnumerable<SelectListItem>)ViewBag.Categories, "Select Category...")
+
+
+
+        Brand
+        @Html.DropDownList("brandName", (IEnumerable<SelectListItem>)ViewBag.Brands, "Select Brand..."))
+
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+    </fielset>
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StockStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayName("Store")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @if (item.Undercutters)
+                    {
+                        <p>Undercutters</p> }
+                    else
+                    {
+                        <p>Producks</p>}
+                </td>
+
+
+
+            </tr>
+}
+    </tbody>
+</table>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Producks.Data;
+using Producks.Web.ViewModels;
 
 namespace Producks.Web.Controllers
 {
@@ -19,10 +20,26 @@ namespace Producks.Web.Controllers
         }
 
         // GET: Products
+        /*
         public async Task<IActionResult> Index()
         {
             var storeDb = _context.Products.Include(p => p.Brand).Include(p => p.Category);
             return View(await storeDb.ToListAsync());
+        }
+        */
+        public IActionResult Index()
+        {
+            var storeDb = _context.Products.Include(p => p.Brand).Include(p => p.Category);
+            return View(storeDb.Where(p => p.Active).Select(x => new ProductVM
+            {
+                Name = x.Name,
+                Id = x.Id,
+                Brand = x.Brand.Name,
+                Category = x.Category.Name,
+                Description = x.Description,
+                Price = x.Price,
+                StockLevel = x.StockLevel
+            }));
         }
 
         // GET: Products/Details/5

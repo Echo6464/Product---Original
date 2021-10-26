@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Producks.Data;
+using Producks.Web.ViewModels;
 
 namespace Producks.Web.Controllers
 {
@@ -19,9 +20,16 @@ namespace Producks.Web.Controllers
         }
 
         // GET: Brands
+        /*
         public async Task<IActionResult> Index()
         {
             return View(await _context.Brands.ToListAsync());
+        }
+        */
+        public IActionResult Index()
+        {
+            //return View(await _context.Categories.ToListAsync());
+            return View(_context.Brands.Where(s => s.Active).Select(x => new BrandVM { Id = x.Id, Name = x.Name}));
         }
 
         // GET: Brands/Details/5
